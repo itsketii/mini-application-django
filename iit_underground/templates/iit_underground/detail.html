@@ -1,0 +1,43 @@
+{%extends 'iit_underground/base.html'%}
+
+{% block title %}{{ potin.titre }} - IIT Underground{% endblock %}
+
+
+{% block content %}
+    <a href="{% url 'iit_underground:fil' %}" class="muted">&larr; Retour au fil d'actualité</a>
+
+    <div class="card">
+        <h1>{{ potin.titre }}</h1>
+        <p class="muted">
+            {% if potin.anonyme %}
+                Anonyme
+            {% else %}
+                {{ potin.auteur.username }}
+            {% endif %}
+            - {{ potin.date_creation|date:"d/m/Y H:i" }}
+        </p>
+        {% if potin.image %}
+            <img src="{{ potin.image.url }}" alt="Image du potin" class="potin-image">
+        {% endif %}
+        <p>{{ potin.contenu }}</p>
+    </div>
+
+    <h2>Commentaires</h2>
+    {% if potin.commentaires.exists %}
+        {% for commentaire in potin.commentaires.all %}
+            <div class="card">
+                <p class="muted">
+                    {% if commentaire.anonyme %}
+                        Anonyme
+                    {% else %}
+                        {{ commentaire.auteur.username }}
+                    {% endif %}
+                    - {{ commentaire.date_creation|date:"d/m/Y H:i" }}
+                </p>
+                <p>{{ commentaire.contenu }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="muted">Aucun commentaire pour le moment. Soyez le premier à commenter !</p>
+    {% endif %}
+{% endblock %}

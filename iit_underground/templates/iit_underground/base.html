@@ -1,31 +1,29 @@
-<!DOCTYPE html>
+{% load static %}
+<!doctype html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}IIT Underground{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-<head>
-<body>
+    <link rel="stylesheet" href="{% static 'iit_underground/style.css' %}" />
+  </head>
+  <body>
     <nav>
-        <span class="logo">IIT Underground</span>
-        <div>
-            <a href="{% url 'iit_underground'%}">Fil d'actualité</a>
-            {% if user.is_authenticated %}
-                <span class="muted">{{ user.username }}</span>
-            {%else%}
-                <a href="#">Connexion</a>
-            {% endif %}"
-        </div>
+      <span class="logo">IIT Underground</span>
+      <div>
+        <a href="{% url 'iit_underground:fil' %}">Fil d'actualité</a>
+        {% if user.is_authenticated %}
+        <span class="muted">{{ user.username }}</span>
+        {%else%}
+        <a href="#">Connexion</a>
+        {% endif %}"
+      </div>
     </nav>
 
-    <div class="container">
-        {% block content %}
-        {% endblock %}
-    </div>
+    <div class="container">{% block content %} {% endblock %}</div>
 
     <footer>
-        <p>&copy; 2026 IIT Underground. Tous droits réservés.</p>
+      <p>&copy; 2026 IIT Underground. Tous droits réservés.</p>
     </footer>
-</body>
+  </body>
 </html>

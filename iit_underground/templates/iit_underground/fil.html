@@ -1,0 +1,26 @@
+{%extends 'iit_underground/base.html'%}
+
+{% block title %}Fil d'actualité{% endblock %}
+
+{% block content %}
+    <h1>Fil d'actualité</h1>
+   
+    {%for potin in portin%}
+    <div class="card">
+        <h2>
+            <a href="{% url 'iit_underground:detail' potin.id %}" style="text-decoration: none; color: #F5F5F5;">{{ potin.titre }}</a>
+        </h2>
+        <p class="muted">
+            {% if potin.anonyme %}
+                Anonyme
+            {% else %}
+                {{ potin.auteur.username }}
+            {% endif %}
+            - {{ potin.date_creation|date:"d/m/Y H:i" }}
+        </p>
+        <p> {{ potin.contenu|truncatewords:30 }}</p>
+    </div>
+    {% empty %}
+    <p class="muted">Aucun potin disponible pour le moment. Sois le premier à en publier un scoop!</p>
+    {% endfor %}
+{% endblock %}
