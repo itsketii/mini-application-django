@@ -1,0 +1,8 @@
+{% extends 'iit_underground/base.html' %} {% block title %}Nouveau potin - IIT
+Underground{% endblock %} {% block content %}
+<h1>Balancer un scoop</h1>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %} {{ form.as_p }}
+  <button type="submit" class="btn">Publier</button>
+</form>
+{% endblock %}
