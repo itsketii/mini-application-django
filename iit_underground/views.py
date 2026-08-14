@@ -1,8 +1,22 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect
 from django.shortcuts import render
+from django.contrib.auth import login
 from .forms import PotinForm
 from .models import Potin
+
+
+def inscription(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('iit_underground:fil')
+    else:
+        form = UserCreationForm()
+    return render(request, 'iit_underground/inscription.html', {'form': form})
 
 
 def fil_actualite(request):

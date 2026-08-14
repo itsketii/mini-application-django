@@ -14,9 +14,10 @@
         <a href="{% url 'iit_underground:fil' %}">Fil d'actualité</a>
         {% if user.is_authenticated %}
         <span class="muted">{{ user.username }}</span>
-        {%else%}
-        <a href="#">Connexion</a>
-        {% endif %}"
+        <a href="{% url 'logout' %}">Déconnexion</a>
+        {% else %}
+        <a href="{% url 'login' %}">Connexion</a>
+        {% endif %}
       </div>
     </nav>
 

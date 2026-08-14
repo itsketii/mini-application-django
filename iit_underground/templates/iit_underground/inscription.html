@@ -1,0 +1,10 @@
+{% extends "iit_underground/base.html" %}
+{% block title %} Inscription - IIT Underground {% endblock %}
+{% block content %}
+  <h1>Inscription</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn" type="submit">S'inscrire</button>
+  </form>
+{% endblock %}
