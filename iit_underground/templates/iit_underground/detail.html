@@ -21,8 +21,8 @@
         {% endif %}
         <p>{{ potin.contenu }}</p>
         {% if user == potin.auteur %}
-            <a href="{% url 'iit_underground:modifier' potin.pk %}" class="btn">Modifier</a>
-            <a href="{% url 'iit_underground:supprimer' potin.pk %}" class="muted">Supprimer</a>
+            <a href="{% url 'iit_underground:modifier' potin_id=potin.id %}" class="btn">Modifier</a>
+            <a href="{% url 'iit_underground:supprimer' potin_id=potin.id %}" class="muted">Supprimer</a>
         {% endif %}
     </div>
 

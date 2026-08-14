@@ -41,7 +41,7 @@ def creer_potin(request):
             potin.auteur = request.user
             potin.save()
             form.save_m2m()
-            return redirect('iit_underground:detail', pk=potin.pk)
+            return redirect('iit_underground:detail', potin_id=potin.id)
     else:
         form = PotinForm()
     return render(request, 'iit_underground/creer.html', {'form': form})

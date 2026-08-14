@@ -18,13 +18,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-
 from config import settings
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('connexion/', auth_views.LoginView.as_view(template_name='iit_underground/connexion.html'), name='login'),
-    path('deconnexion/', auth_views.LogoutView.as_view(next_page='iit_underground:filieres'), name='logout'),
+    path('deconnexion/', auth_views.LogoutView.as_view(next_page='iit_underground:fil'), name='logout'),
     path('', include('iit_underground.urls')),
 ]
 

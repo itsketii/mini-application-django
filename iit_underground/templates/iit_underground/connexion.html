@@ -1,4 +1,5 @@
-{% {% extends "iit_underground/base.html" %}%} {% {% block content %}%}
+{% extends "iit_underground/base.html" %}
+{% block content %}
 <h2>Connexion</h2>
 <form method="post">
   {% csrf_token %} {{ form.as_p }}
@@ -6,8 +7,6 @@
 </form>
 <p class="muted">
   Pas encore de compte ?
-  <a href="{% url 'iit_underground:inscription' %}" style="color: #e30613"
-    >S'inscrire</a
-  >
+  <a href="{% url 'iit_underground:inscription' %}" style="color: #e30613">S'inscrire</a>
 </p>
-{% {% endblock %}%}
+{% endblock %}
