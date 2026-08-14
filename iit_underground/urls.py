@@ -6,9 +6,9 @@ app_name = 'iit_underground'
 urlpatterns = [
     path('', views.fil_actualite, name='fil'),
     path('inscription/', views.inscription, name='inscription'),
-    path('nouveau/', views.creer_potin, name='creer'),
-    path('profil/', view.profil_utlisateur, name='profil'),
-    path('<int:potin_id>/modifier/', views.modifier_potin, name='modifier'),
-    path('<int:potin_id>/supprimer/', views.supprimer_potin, name='supprimer'),
-    path('<int:potin_id>/', views.detail_potin, name='detail'),
+    path('nouveau/', views.creer_post, name='creer'),
+    path('profil/', views.profil_utilisateur, name='profil'),
+    path('<int:post_id>/modifier/', views.modifier_post, name='modifier'),
+    path('<int:post_id>/supprimer/', views.supprimer_post, name='supprimer'),
+    path('<int:post_id>/', views.detail_post, name='detail'),
 ]

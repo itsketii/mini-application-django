@@ -5,8 +5,8 @@ from .models import Tag, Potin, Commentaire, Profil
 @admin.register(Profil)
 class ProfilAdmin(admin.ModelAdmin):
     list_display = ('user', 'verifie', 'anonyme_par_defaut')
-    list_filter = ('verifie')
-    search_fields = ('user__username')
+    list_filter = ('verifie',)
+    search_fields = ('user__username',)
 
 
 @admin.register(Tag)

@@ -1,0 +1,43 @@
+{% extends 'iit_underground/base.html' %}
+
+{% block title %}Mon profil - IIT Underground{% endblock %}
+
+{% block content %}
+<h1>Mon profil</h1>
+
+<div class="card">
+    <p>
+        <strong>{{ user.username }}</strong>
+        {% if profil.verifie %}<span class="muted" title="Compte vérifié">✔ Vérifié</span>{% endif %}
+    </p>
+    {% if profil.avatar %}
+        <img src="{{ profil.avatar.url }}" alt="Avatar" class="potin-image" style="max-width: 120px; border-radius: 50%;">
+    {% endif %}
+    <p class="muted">{{ nb_posts }} post{{ nb_posts|pluralize }} publié{{ nb_posts|pluralize }}</p>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label>Changer l'avatar : <input type="file" name="avatar"></label><br><br>
+        <label>
+            <input type="checkbox" name="anonyme_par_defaut" {% if profil.anonyme_par_defaut %}checked{% endif %}>
+            Publier anonymement par défaut
+        </label><br><br>
+        <button type="submit" class="btn">Enregistrer</button>
+    </form>
+
+    <form action="{% url 'logout' %}" method="post" style="margin-top: 1rem;">
+        {% csrf_token %}
+        <button type="submit" class="muted" style="background:none; border:none; text-decoration: underline; cursor: pointer;">Déconnexion</button>
+    </form>
+</div>
+
+<h2>Mes posts</h2>
+{% for post in mes_posts %}
+    <div class="card">
+        <h3><a href="{% url 'iit_underground:detail' post.id %}" style="text-decoration: none; color: #F5F5F5;">{{ post.titre }}</a></h3>
+        <p class="muted">{{ post.date_publication|date:"d/m/Y H:i" }}</p>
+    </div>
+{% empty %}
+    <p class="muted">Tu n'as encore rien publié.</p>
+{% endfor %}
+{% endblock %}

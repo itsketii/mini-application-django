@@ -4,7 +4,7 @@ from django.http import HttpResponseForbidden
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.models import User
-from .forms import PotinForm, CommentaireForm
+from .forms import PostForm, CommentaireForm
 from .models import Potin, Tag, Profil
 
 
@@ -21,20 +21,20 @@ def inscription(request):
 
 
 def fil_actualite(request):
-    potins = Potin.objects.all()
+    posts = Potin.objects.all()
     tag_actif = request.GET.get('tag')
     if tag_actif:
-        potins = potins.filter(tags__nom=tag_actif)
+        posts = posts.filter(tags__nom=tag_actif)
     tags = Tag.objects.all()
     return render(request, 'iit_underground/fil.html', {
-        'potins': potins,
+        'posts': posts,
         'tags': tags,
         'tag_actif': tag_actif,
     })
 
 
-def detail_potin(request, potin_id):
-    potin = get_object_or_404(Potin, id=potin_id)
+def detail_post(request, post_id):
+    post = get_object_or_404(Potin, id=post_id)
 
     if request.method == 'POST':
         if not request.user.is_authenticated:
@@ -42,62 +42,62 @@ def detail_potin(request, potin_id):
         form = CommentaireForm(request.POST)
         if form.is_valid():
             commentaire = form.save(commit=False)
-            commentaire.potin = potin
+            commentaire.potin = post
             commentaire.auteur = request.user
             commentaire.save()
-            return redirect('iit_underground:detail', potin_id=potin.id)
+            return redirect('iit_underground:detail', post_id=post.id)
     else:
         form = CommentaireForm()
 
     return render(request, 'iit_underground/detail.html', {
-        'potin': potin,
+        'post': post,
         'form': form,
     })
 
 
 @login_required
-def creer_potin(request):
+def creer_post(request):
     if request.method == 'POST':
-        form = PotinForm(request.POST, request.FILES)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
-            potin = form.save(commit=False)
-            potin.auteur = request.user
-            potin.save()
+            post = form.save(commit=False)
+            post.auteur = request.user
+            post.save()
             form.save_m2m()
-            return redirect('iit_underground:detail', potin_id=potin.id)
+            return redirect('iit_underground:detail', post_id=post.id)
     else:
         initial = {}
         profil = getattr(request.user, 'profil', None)
         if profil:
             initial['anonyme'] = profil.anonyme_par_defaut
-        form = PotinForm(initial=initial)
+        form = PostForm(initial=initial)
     return render(request, 'iit_underground/creer.html', {'form': form})
 
 
 @login_required
-def modifier_potin(request, potin_id):
-    potin = get_object_or_404(Potin, id=potin_id)
-    if potin.auteur != request.user:
+def modifier_post(request, post_id):
+    post = get_object_or_404(Potin, id=post_id)
+    if post.auteur != request.user:
         return HttpResponseForbidden("Tu ne peux modifier que tes propres posts.")
     if request.method == 'POST':
-        form = PotinForm(request.POST, request.FILES, instance=potin)
+        form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             form.save()
-            return redirect('iit_underground:detail', potin_id=potin.id)
+            return redirect('iit_underground:detail', post_id=post.id)
     else:
-        form = PotinForm(instance=potin)
-    return render(request, 'iit_underground/modifier.html', {'form': form, 'potin': potin})
+        form = PostForm(instance=post)
+    return render(request, 'iit_underground/modifier.html', {'form': form, 'post': post})
 
 
 @login_required
-def supprimer_potin(request, potin_id):
-    potin = get_object_or_404(Potin, id=potin_id)
-    if potin.auteur != request.user:
+def supprimer_post(request, post_id):
+    post = get_object_or_404(Potin, id=post_id)
+    if post.auteur != request.user:
         return HttpResponseForbidden("Tu ne peux supprimer que tes propres posts.")
     if request.method == 'POST':
-        potin.delete()
+        post.delete()
         return redirect('iit_underground:fil')
-    return render(request, 'iit_underground/confirmer_suppression.html', {'potin': potin})
+    return render(request, 'iit_underground/confirmer_suppression.html', {'post': post})
 
 
 @login_required
@@ -111,9 +111,9 @@ def profil_utilisateur(request):
         profil.save()
         return redirect('iit_underground:profil')
 
-    mes_potins = request.user.potins.all()
+    mes_posts = request.user.potins.all()
     return render(request, 'iit_underground/profil.html', {
         'profil': profil,
-        'mes_potins': mes_potins,
-        'nb_potins': mes_potins.count(),
+        'mes_posts': mes_posts,
+        'nb_posts': mes_posts.count(),
     })

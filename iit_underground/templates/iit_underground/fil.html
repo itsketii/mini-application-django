@@ -1,24 +1,36 @@
-{%extends 'iit_underground/base.html'%}
+{% extends 'iit_underground/base.html' %}
 
 {% block title %}Fil d'actualité{% endblock %}
 
 {% block content %}
     <h1>Fil d'actualité</h1>
-   
-    {%for potin in portin%}
+
+    <div class="tags-filtre">
+        <a href="{% url 'iit_underground:fil' %}" class="{% if not tag_actif %}btn{% else %}muted{% endif %}">Tous</a>
+        {% for tag in tags %}
+            <a href="?tag={{ tag.nom }}" class="{% if tag_actif == tag.nom %}btn{% else %}muted{% endif %}">#{{ tag.nom }}</a>
+        {% endfor %}
+    </div>
+
+    {% for post in posts %}
     <div class="card">
         <h2>
-            <a href="{% url 'iit_underground:detail' potin.id %}" style="text-decoration: none; color: #F5F5F5;">{{ potin.titre }}</a>
+            <a href="{% url 'iit_underground:detail' post.id %}" style="text-decoration: none; color: #F5F5F5;">{{ post.titre }}</a>
         </h2>
         <p class="muted">
-            {% if potin.anonyme %}
+            {% if post.anonyme %}
                 Anonyme
             {% else %}
-                {{ potin.auteur.username }}
+                {{ post.auteur.username }}
             {% endif %}
-            - {{ potin.date_creation|date:"d/m/Y H:i" }}
+            - {{ post.date_publication|date:"d/m/Y H:i" }}
         </p>
-        <p> {{ potin.contenu|truncatewords:30 }}</p>
+        {% if post.tags.all %}
+            <p class="muted">
+                {% for tag in post.tags.all %}#{{ tag.nom }} {% endfor %}
+            </p>
+        {% endif %}
+        <p> {{ post.contenu|truncatewords:30 }}</p>
     </div>
     {% empty %}
     <p class="muted">Aucun post disponible pour le moment. Sois le premier à en publier un scoop!</p>

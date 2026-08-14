@@ -1,0 +1,13 @@
+{% extends 'iit_underground/base.html' %}
+
+{% block title %}Modifier - IIT Underground{% endblock %}
+
+{% block content %}
+<h1>Modifier le scoop</h1>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn">Enregistrer</button>
+  <a class="btn" href="{% url 'iit_underground:detail' post_id=post.id %}">Annuler</a>
+</form>
+{% endblock %}

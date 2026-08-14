@@ -2,7 +2,7 @@ from django import forms
 from .models import Commentaire, Potin
 
 
-class PotinForm(forms.ModelForm):
+class PostForm(forms.ModelForm):
     class Meta:
         model = Potin
         fields = ['titre', 'contenu', 'image', 'tags', 'anonyme']
@@ -26,4 +26,4 @@ class CommentaireForm(forms.ModelForm):
         }
         labels = {
             'contenu': '',
-        }   
+        }  

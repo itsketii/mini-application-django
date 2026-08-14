@@ -1,42 +1,53 @@
-{%extends 'iit_underground/base.html'%}
+{% extends 'iit_underground/base.html' %}
 
-{% block title %}{{ potin.titre }} - IIT Underground{% endblock %}
-
+{% block title %}{{ post.titre }} - IIT Underground{% endblock %}
 
 {% block content %}
     <a href="{% url 'iit_underground:fil' %}" class="muted">&larr; Retour au fil d'actualité</a>
 
     <div class="card">
-        <h1>{{ potin.titre }}</h1>
+        <h1>{{ post.titre }}</h1>
         <p class="muted">
-            {% if potin.anonyme %}
+            {% if post.anonyme %}
                 Anonyme
             {% else %}
-                {{ potin.auteur.username }}
+                {{ post.auteur.username }}
             {% endif %}
-            - {{ potin.date_creation|date:"d/m/Y H:i" }}
+            - {{ post.date_publication|date:"d/m/Y H:i" }}
         </p>
-        {% if potin.image %}
-            <img src="{{ potin.image.url }}" alt="Image du potin" class="potin-image">
+        {% if post.tags.all %}
+            <p class="muted">
+                {% for tag in post.tags.all %}#{{ tag.nom }} {% endfor %}
+            </p>
         {% endif %}
-        <p>{{ potin.contenu }}</p>
-        {% if user == potin.auteur %}
-            <a href="{% url 'iit_underground:modifier' potin_id=potin.id %}" class="btn">Modifier</a>
-            <a href="{% url 'iit_underground:supprimer' potin_id=potin.id %}" class="muted">Supprimer</a>
+        {% if post.image %}
+            <img src="{{ post.image.url }}" alt="Image du post" class="potin-image">
+        {% endif %}
+        <p>{{ post.contenu }}</p>
+        {% if user == post.auteur %}
+            <a href="{% url 'iit_underground:modifier' post_id=post.id %}" class="btn">Modifier</a>
+            <a href="{% url 'iit_underground:supprimer' post_id=post.id %}" class="muted">Supprimer</a>
         {% endif %}
     </div>
 
     <h2>Commentaires</h2>
-    {% if potin.commentaires.exists %}
-        {% for commentaire in potin.commentaires.all %}
+
+    {% if user.is_authenticated %}
+        <form method="post" class="card">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn">Commenter</button>
+        </form>
+    {% else %}
+        <p class="muted"><a href="{% url 'login' %}" style="color: #e30613">Connecte-toi</a> pour commenter.</p>
+    {% endif %}
+
+    {% if post.commentaires.exists %}
+        {% for commentaire in post.commentaires.all %}
             <div class="card">
                 <p class="muted">
-                    {% if commentaire.anonyme %}
-                        Anonyme
-                    {% else %}
-                        {{ commentaire.auteur.username }}
-                    {% endif %}
-                    - {{ commentaire.date_creation|date:"d/m/Y H:i" }}
+                    {{ commentaire.auteur.username }}
+                    - {{ commentaire.date_publication|date:"d/m/Y H:i" }}
                 </p>
                 <p>{{ commentaire.contenu }}</p>
             </div>
