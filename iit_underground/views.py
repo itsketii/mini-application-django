@@ -1,9 +1,10 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
-from django.shortcuts import render
+from django.http import HttpResponseForbidden
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from django.http import HttpResponse
+from django.shortcuts import render
 from .forms import PotinForm
 from .models import Potin
 

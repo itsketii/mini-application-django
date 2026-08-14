@@ -20,6 +20,10 @@
             <img src="{{ potin.image.url }}" alt="Image du potin" class="potin-image">
         {% endif %}
         <p>{{ potin.contenu }}</p>
+        {% if user == potin.auteur %}
+            <a href="{% url 'iit_underground:modifier' potin.pk %}" class="btn">Modifier</a>
+            <a href="{% url 'iit_underground:supprimer' potin.pk %}" class="muted">Supprimer</a>
+        {% endif %}
     </div>
 
     <h2>Commentaires</h2>
