@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import redirect
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect
 from django.shortcuts import render
 from django.contrib.auth import login
 from .forms import PotinForm
@@ -43,3 +44,29 @@ def creer_potin(request):
     else:
         form = PotinForm()
     return render(request, 'iit_underground/creer.html', {'form': form})
+
+
+@login_required
+def modifier_potin(request, potin_id):
+    potin = get_object_or_404(Potin, id=potin_id)
+    if potin.auteur != request.user:
+        return HttpResponse("Tu ne peux modifier que tes propres posts.")
+    if request.method == 'POST':
+        form = PotinForm(request.POST, request.FILES, instance=potin)
+        if form.is_valid():
+            form.save()
+            return redirect('iit_underground:detail', potin_id=potin.id)
+        else:
+            form = PotinForm(instance=potin)
+    return render(request, 'iit_underground/modifier.html', {'form': form, 'potin': potin})
+
+
+@login_required
+def supprimer_potin(request, potin_id):
+    potin = get_object_or_404(Potin, id=potin_id)
+    if potin.auteur != request.user:
+        return HttpResponse("Tu ne peux supprimer que tes propres posts.")
+    if request.method == 'POST':
+        potin.delete()
+        return redirect('iit_underground:fil')
+    return render(request, 'iit_underground/supprimer.html', {'potin': potin})
