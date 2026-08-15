@@ -2,9 +2,11 @@
 {% block title %}Nouveau post - IIT Underground{% endblock %}
 {% block content %}
 <h1 class="mb-4">Balancer un scoop</h1>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-scandale">Publier</button>
-</form>
+<div class="card p-4">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-scandale mt-2">Publier</button>
+    </form>
+</div>
 {% endblock %}

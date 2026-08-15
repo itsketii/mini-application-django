@@ -2,12 +2,14 @@
 {% block title %}Modifier - IIT Underground{% endblock %}
 {% block content %}
 <h1 class="mb-4">Modifier le scoop</h1>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <div class="d-flex gap-2">
-        <button type="submit" class="btn btn-scandale">Enregistrer</button>
-        <a class="btn btn-outline-secondary" href="{% url 'iit_underground:detail' post_id=post.id %}">Annuler</a>
-    </div>
-</form>
+<div class="card p-4">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="d-flex gap-2 mt-2">
+            <button type="submit" class="btn btn-scandale">Enregistrer</button>
+            <a class="btn btn-outline-secondary" href="{% url 'iit_underground:detail' post_id=post.id %}">Annuler</a>
+        </div>
+    </form>
+</div>
 {% endblock %}

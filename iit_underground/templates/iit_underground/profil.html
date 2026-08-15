@@ -1,43 +1,45 @@
 {% extends 'iit_underground/base.html' %}
-
 {% block title %}Mon profil - IIT Underground{% endblock %}
-
 {% block content %}
-<h1>Mon profil</h1>
+<h1 class="mb-4">Mon profil</h1>
 
-<div class="card">
-    <p>
-        <strong>{{ user.username }}</strong>
-        {% if profil.verifie %}<span class="muted" title="Compte vérifié">✔ Vérifié</span>{% endif %}
-    </p>
-    {% if profil.avatar %}
-        <img src="{{ profil.avatar.url }}" alt="Avatar" class="potin-image" style="max-width: 120px; border-radius: 50%;">
-    {% endif %}
-    <p class="muted">{{ nb_posts }} post{{ nb_posts|pluralize }} publié{{ nb_posts|pluralize }}</p>
+<div class="card p-4 mb-4">
+    <div class="d-flex align-items-center gap-3 mb-3">
+        {% if profil.avatar %}
+            <img src="{{ profil.avatar.url }}" alt="Avatar" class="rounded-circle" style="width:80px; height:80px; object-fit:cover;">
+        {% endif %}
+        <div>
+            <h2 class="h5 mb-1">
+                {{ user.username }}
+                {% if profil.verifie %}<span class="badge" style="background-color:#1E3A8A;">Vérifié</span>{% endif %}
+            </h2>
+            <p class="text-muted-custom small mb-0">{{ nb_posts }} post{{ nb_posts|pluralize }} publié{{ nb_posts|pluralize }}</p>
+        </div>
+    </div>
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <label>Changer l'avatar : <input type="file" name="avatar"></label><br><br>
-        <label>
-            <input type="checkbox" name="anonyme_par_defaut" {% if profil.anonyme_par_defaut %}checked{% endif %}>
-            Publier anonymement par défaut
-        </label><br><br>
-        <button type="submit" class="btn">Enregistrer</button>
-    </form>
-
-    <form action="{% url 'logout' %}" method="post" style="margin-top: 1rem;">
-        {% csrf_token %}
-        <button type="submit" class="muted" style="background:none; border:none; text-decoration: underline; cursor: pointer;">Déconnexion</button>
+        <div class="mb-3">
+            <label class="form-label">Changer l'avatar</label>
+            <input type="file" name="avatar" class="form-control">
+        </div>
+        <div class="form-check mb-3">
+            <input type="checkbox" name="anonyme_par_defaut" class="form-check-input" id="anonymeCheck" {% if profil.anonyme_par_defaut %}checked{% endif %}>
+            <label class="form-check-label" for="anonymeCheck">Publier anonymement par défaut</label>
+        </div>
+        <button type="submit" class="btn btn-scandale">Enregistrer</button>
     </form>
 </div>
 
-<h2>Mes posts</h2>
+<h2 class="h5 mb-3">Mes posts</h2>
 {% for post in mes_posts %}
-    <div class="card">
-        <h3><a href="{% url 'iit_underground:detail' post.id %}" style="text-decoration: none; color: #F5F5F5;">{{ post.titre }}</a></h3>
-        <p class="muted">{{ post.date_publication|date:"d/m/Y H:i" }}</p>
+    <div class="card mb-2 p-3">
+        <a href="{% url 'iit_underground:detail' post.id %}" class="text-decoration-none" style="color:#F5F5F5;">
+            <h3 class="h6 mb-1">{{ post.titre }}</h3>
+        </a>
+        <p class="text-muted-custom small mb-0">{{ post.date_publication|date:"d/m/Y H:i" }}</p>
     </div>
 {% empty %}
-    <p class="muted">Tu n'as encore rien publié.</p>
+    <p class="text-muted-custom">Tu n'as encore rien publié.</p>
 {% endfor %}
 {% endblock %}

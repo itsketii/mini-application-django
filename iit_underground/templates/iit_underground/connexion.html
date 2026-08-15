@@ -1,12 +1,18 @@
 {% extends "iit_underground/base.html" %}
 {% block content %}
-<h2 class="mb-4">Connexion</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button class="btn btn-scandale" type="submit">Se connecter</button>
-</form>
-<p class="text-muted-custom mt-3">
-    Pas encore de compte ? <a href="{% url 'iit_underground:inscription' %}" class="text-link">S'inscrire</a>
-</p>
+<div class="d-flex flex-column align-items-center text-center mb-4">
+    <h1 style="color:#E30613;">IIT Underground</h1>
+</div>
+
+<div class="card p-4 mx-auto" style="max-width: 420px;">
+    <h2 class="h5 mb-3">Connexion</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-scandale w-100 mt-2" type="submit">Se connecter</button>
+    </form>
+    <p class="text-muted-custom mt-3 mb-0 text-center">
+        Pas encore de compte ? <a href="{% url 'iit_underground:inscription' %}" class="text-link">S'inscrire</a>
+    </p>
+</div>
 {% endblock %}

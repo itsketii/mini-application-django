@@ -71,6 +71,21 @@ a.text-link:hover {
     box-shadow: 0 0 0 0.2rem rgba(227, 6, 19, 0.25) !important;
 }
 
+form ul {
+    font-size: 0.75rem;
+    color: #808080;
+    padding-left: 1.2rem;
+}
+
+input[type="file"] {
+    background-color: #1A1A1A !important;
+    color: #F5F5F5 !important;
+    border: 1px solid #2A2A2A !important;
+    border-radius: 6px;
+    padding: 0.5rem;
+    width: 100%;
+}
+
 footer {
     color: #B3B3B3;
     padding: 2rem 0;
