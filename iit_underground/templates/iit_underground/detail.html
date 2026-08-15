@@ -1,58 +1,53 @@
 {% extends 'iit_underground/base.html' %}
-
 {% block title %}{{ post.titre }} - IIT Underground{% endblock %}
-
 {% block content %}
-    <a href="{% url 'iit_underground:fil' %}" class="muted">&larr; Retour au fil d'actualité</a>
+    <a href="{% url 'iit_underground:fil' %}" class="text-muted-custom text-decoration-none">&larr; Retour au fil d'actualité</a>
 
-    <div class="card">
-        <h1>{{ post.titre }}</h1>
-        <p class="muted">
-            {% if post.anonyme %}
-                Anonyme
-            {% else %}
-                {{ post.auteur.username }}
-            {% endif %}
-            - {{ post.date_publication|date:"d/m/Y H:i" }}
+    <div class="card my-3 p-3">
+        <h1 class="h4">{{ post.titre }}</h1>
+        <p class="text-muted-custom small">
+            {% if post.anonyme %}Anonyme{% else %}{{ post.auteur.username }}{% endif %}
+            &middot; {{ post.date_publication|date:"d/m/Y H:i" }}
         </p>
         {% if post.tags.all %}
-            <p class="muted">
+            <p class="text-muted-custom small">
                 {% for tag in post.tags.all %}#{{ tag.nom }} {% endfor %}
             </p>
         {% endif %}
         {% if post.image %}
-            <img src="{{ post.image.url }}" alt="Image du post" class="potin-image">
+            <img src="{{ post.image.url }}" alt="Image du post" class="img-fluid rounded my-2">
         {% endif %}
         <p>{{ post.contenu }}</p>
         {% if user == post.auteur %}
-            <a href="{% url 'iit_underground:modifier' post_id=post.id %}" class="btn">Modifier</a>
-            <a href="{% url 'iit_underground:supprimer' post_id=post.id %}" class="muted">Supprimer</a>
+            <div class="d-flex gap-2 mt-2">
+                <a href="{% url 'iit_underground:modifier' post_id=post.id %}" class="btn btn-scandale btn-sm">Modifier</a>
+                <a href="{% url 'iit_underground:supprimer' post_id=post.id %}" class="btn btn-outline-secondary btn-sm">Supprimer</a>
+            </div>
         {% endif %}
     </div>
 
-    <h2>Commentaires</h2>
+    <h2 class="h5">Commentaires</h2>
 
     {% if user.is_authenticated %}
-        <form method="post" class="card">
+        <form method="post" class="card p-3 mb-3">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn">Commenter</button>
+            <button type="submit" class="btn btn-scandale">Commenter</button>
         </form>
     {% else %}
-        <p class="muted"><a href="{% url 'login' %}" style="color: #e30613">Connecte-toi</a> pour commenter.</p>
+        <p class="text-muted-custom"><a href="{% url 'login' %}" class="text-link">Connecte-toi</a> pour commenter.</p>
     {% endif %}
 
     {% if post.commentaires.exists %}
         {% for commentaire in post.commentaires.all %}
-            <div class="card">
-                <p class="muted">
-                    {{ commentaire.auteur.username }}
-                    - {{ commentaire.date_publication|date:"d/m/Y H:i" }}
+            <div class="card mb-2 p-3">
+                <p class="text-muted-custom small mb-1">
+                    {{ commentaire.auteur.username }} &middot; {{ commentaire.date_publication|date:"d/m/Y H:i" }}
                 </p>
-                <p>{{ commentaire.contenu }}</p>
+                <p class="mb-0">{{ commentaire.contenu }}</p>
             </div>
         {% endfor %}
     {% else %}
-        <p class="muted">Aucun commentaire pour le moment. Soyez le premier à commenter !</p>
+        <p class="text-muted-custom">Aucun commentaire pour le moment. Sois le premier à commenter !</p>
     {% endif %}
 {% endblock %}
