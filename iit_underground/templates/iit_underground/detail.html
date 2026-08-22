@@ -62,11 +62,21 @@ IIT Underground{% endblock %} {% block content %}
 {% if post.commentaires.exists %}
   {% for commentaire in post.commentaires.all %}
   <div class="card mb-2 p-3">
-    <p class="text-muted-custom small mb-1">
-      {{ commentaire.auteur.username }} &middot;
-      {{ commentaire.date_publication|date:"d/m/Y H:i" }}
-    </p>
-    <p class="mb-0">{{ commentaire.contenu }}</p>
+    <div class="d-flex justify-content-between align-items-start gap-3">
+      <div>
+        <p class="text-muted-custom small mb-1">
+          {{ commentaire.auteur.username }} &middot;
+          {{ commentaire.date_publication|date:"d/m/Y H:i" }}
+        </p>
+        <p class="mb-0">{{ commentaire.contenu }}</p>
+      </div>
+      {% if user == commentaire.auteur %}
+      <form method="post" action="{% url 'iit_underground:supprimer_commentaire' commentaire.id %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-link btn-sm text-danger p-0">Supprimer</button>
+      </form>
+      {% endif %}
+    </div>
   </div>
   {% empty %}
   <p class="text-muted-custom">

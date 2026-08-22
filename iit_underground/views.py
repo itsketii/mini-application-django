@@ -2,10 +2,10 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponseForbidden
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from .forms import PostForm, CommentaireForm
-from .models import Potin, Tag, Profil
+from .models import Potin, Tag, Profil, Commentaire
 
 
 def inscription(request):
@@ -116,4 +116,33 @@ def profil_utilisateur(request):
         'profil': profil,
         'mes_posts': mes_posts,
         'nb_posts': mes_posts.count(),
+    })
+
+
+@login_required
+def supprimer_commentaire(request, commentaire_id):
+    commentaire = get_object_or_404(Commentaire, id=commentaire_id)
+    if commentaire.auteur != request.user:
+        return HttpResponseForbidden("Tu ne peux supprimer que tes propres commentaires.")
+
+    if request.method == 'POST':
+        post_id = commentaire.potin.id
+        commentaire.delete()
+        return redirect('iit_underground:detail', post_id=post_id)
+
+    return render(request, 'iit_underground/confirmer_suppression_commentaire.html', {
+        'commentaire': commentaire,
+    })
+
+
+@login_required
+def supprimer_compte(request):
+    if request.method == 'POST':
+        user = request.user
+        logout(request)
+        user.delete()
+        return redirect('iit_underground:fil')
+
+    return render(request, 'iit_underground/confirmer_suppression_compte.html', {
+        'user': request.user,
     })

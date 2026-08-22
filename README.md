@@ -1,95 +1,39 @@
-# FORMATION L2 - MINI-APPLICATION DJANGO : IIT UNDERGROUND
+# IIT Underground
 
-### Description
+Mini-application Django de type réseau social / fil d’actualités, réalisée dans le cadre de la formation IIT Learn.
 
-Dans le cadre de la formation IIT Learn 25-26, ce dépôt contient le projet Django nommé `config` et l'application `iit_underground`. L'objectif est de mettre en pratique les bases du framework Django, en développant une mini-application de type réseau social où l'on peut publier des potins, consulter un fil d'actualité et gérer les publications.
+## Sujet
 
-Ce projet permet de travailler sur :
+Le projet permet à un utilisateur de :
 
-- la création d'un projet et d'une application Django,
-- l'architecture MVT,
-- la définition de modèles et l'utilisation de l'ORM,
-- la création de vues et de templates,
-- la gestion des utilisateurs et des publications,
-- la collaboration avec Git et GitHub.
-
----
-
-### Objectifs validés
-
-* Créer un projet Django et une application, et comprendre l'architecture MVT
-* Définir un modèle, générer et appliquer une migration, manipuler les données via l'ORM
-* Créer des vues qui utilisent l'ORM et des templates pour afficher les résultats
-* Gérer les fonctionnalités principales d'une application web Django
-* Travailler en équipe via Git et résoudre les conflits éventuels
+- s’inscrire et se connecter,
+- publier des potins / articles courts,
+- ajouter des tags,
+- consulter un fil d’actualité,
+- voir le détail d’un post,
+- commenter un post,
+- modifier ou supprimer ses propres publications,
+- gérer son profil et son avatar,
+- supprimer son compte.
 
 ---
 
-### Travail réalisé
+## Fonctionnalités principales
 
-* [X] Créer le dépôt GitHub et le cloner localement
-* [X] Créer un environnement virtuel
-* [X] Installer Django
-* [X] Créer le projet Django `config`
-* [X] Créer l'application Django `iit_underground`
-* [X] Déclarer l'application dans `INSTALLED_APPS`
-* [X] Vérifier le démarrage du serveur Django
-* [X] Configurer le fichier `.gitignore`
-* [ ] Créer le modèle `Post` et ses relations
-* [ ] Gérer les utilisateurs et les commentaires
-* [ ] Créer les vues principales : inscription, fil d'actualité, détail, création, modification, suppression
-* [ ] Développer les templates HTML de l'application
-* [ ] Configurer les URLs de l'application
-* [ ] Mettre en place la gestion des images et des médias
+- Authentification Django intégrée
+- Création, lecture, mise à jour et suppression des posts
+- Validation des formulaires
+- Protection CSRF
+- Accès réservé aux utilisateurs connectés pour les actions sensibles
+- Modèle `Profil` avec avatar et option d’anonymat par défaut
+- Modèle `Potin` avec relation `ForeignKey` et `ManyToManyField`
+- Modèle `Commentaire` associé à un potin
+- Interface HTML avec héritage de templates
+- Admin Django personnalisé
 
 ---
 
-### Configuration de l'environnement
-
-##### 1. Clonage du projet
-
-```bash
-git clone https://github.com/itsketii/mini-application-django.git
-cd mini-application-django
-```
-
-##### 2. Environnement virtuel Python
-
-```bash
-python -m venv venv
-```
-
-Activation :
-
-```bash
-# Windows
-venv\Scripts\activate
-
-# Linux/macOS
-source venv/bin/activate
-```
-
-#### 3. Dépendances installées
-
-* `django`
-* `pillow` (pour la gestion des images)
-
-##### 4. Lancement du projet
-
-```bash
-python manage.py migrate
-python manage.py runserver
-```
-
-Puis ouvrir :
-
-```bash
-http://127.0.0.1:8000/
-```
-
----
-
-### Structure du projet
+## Structure du projet
 
 ```bash
 mini-application-django/
@@ -101,8 +45,8 @@ mini-application-django/
 │   └── asgi.py
 ├── iit_underground/
 │   ├── migrations/
-│   ├── templates/
 │   ├── static/
+│   ├── templates/
 │   ├── __init__.py
 │   ├── admin.py
 │   ├── apps.py
@@ -116,51 +60,117 @@ mini-application-django/
 ├── manage.py
 ├── .gitignore
 ├── README.md
-├── venv/
-└── requirements.txt
+├── requirements.txt
+└── venv/
 ```
 
 ---
 
-### Description du projet
+## Prérequis
 
-Le projet est une application web de type réseau social minimal, nommée `iit_underground`. Elle permet à un utilisateur de :
-
-- s'inscrire,
-- se connecter,
-- créer des publications,
-- consulter un fil d'actualité,
-- voir le détail d'une publication,
-- modifier ou supprimer ses propres posts,
-- ajouter une image à un potin.
+- Python 3.10+
+- Django 5.x
+- pip
 
 ---
 
-### Collaboration & Workflow Git
+## Installation
 
-- Collaborateurs invités : @sedrickgael & @junmodeste
+1. Cloner le projet
+
+```bash
+git clone <url-du-repo>
+cd mini-application-django
+```
+
+2. Créer un environnement virtuel
+
+```bash
+python -m venv venv
+```
+
+3. Activer l’environnement virtuel
+
+Windows :
+
+```bash
+venv\Scripts\activate
+```
+
+Linux/macOS :
+
+```bash
+source venv/bin/activate
+```
+
+4. Installer les dépendances
+
+```bash
+pip install -r requirements.txt
+```
+
+5. Appliquer les migrations
+
+```bash
+python manage.py migrate
+```
+
+6. Lancer le serveur
+
+```bash
+python manage.py runserver
+```
+
+7. Ouvrir le projet dans le navigateur
+
+```text
+http://127.0.0.1:8000/
+```
 
 ---
 
-### Documentation utilisée
+## Compte de test
 
-* [Django : Tutoriel officiel, partie 1](https://docs.djangoproject.com/fr/5.1/intro/tutorial01/)
-* [Django : Tutoriel officiel, partie 2](https://docs.djangoproject.com/fr/5.1/intro/tutorial02/)
-* [Django : Référence des requêtes ORM (QuerySet)](https://docs.djangoproject.com/fr/5.1/topics/db/queries/)
-* [Django : Tutoriel officiel, partie 3](https://docs.djangoproject.com/fr/5.1/intro/tutorial03/)
-* [Django : Tutoriel officiel, partie 4](https://docs.djangoproject.com/fr/5.1/intro/tutorial04/)
-* [Django : Héritage de templates](https://docs.djangoproject.com/fr/5.1/ref/templates/language/#template-inheritance)
+Pour tester rapidement l’application, tu peux utiliser ce compte :
+
+- Identifiant : admin_01
+- Mot de passe : Password_1234
 
 ---
 
-### Conclusion
+## Comptes et accès
 
-Ce projet a permis de comprendre les bases de Django et de mettre en pratique les notions essentielles du développement web avec Python : création d'un projet, modélisation des données, interactions avec la base de données et affichage des informations via des vues et des templates. Il a aussi permis de renforcer les compétences en collaboration avec Git et GitHub dans le cadre d'un travail collaboratif.
+- Les utilisateurs peuvent s’inscrire depuis la page d’inscription.
+- La création, modification et suppression de posts nécessitent une connexion.
+- La suppression du compte est possible depuis la page de profil.
 
 ---
 
-### Auteurs
+## Fichiers importants
 
-* Kouadio Ketsia Marie-Aude A. (@itsketii)
+- [config/settings.py](config/settings.py) : configuration Django
+- [config/urls.py](config/urls.py) : routes principales
+- [iit_underground/models.py](iit_underground/models.py) : modèles ORM
+- [iit_underground/views.py](iit_underground/views.py) : logique de l’application
+- [iit_underground/forms.py](iit_underground/forms.py) : formulaires
+- [iit_underground/admin.py](iit_underground/admin.py) : administration personnalisée
+- [iit_underground/templates/iit_underground/base.html](iit_underground/templates/iit_underground/base.html) : template de base
+
+---
+
+## Documentation utilisée
+
+- Django tutorial officiel
+- Modèles et migrations Django
+- Vues et templates Django
+- Formulaires ModelForm
+- Système d’authentification Django
+- Protection CSRF
+
+---
+
+## Auteur
+
+- Kouadio Ketsia Marie-Aude A.
 
 Projet réalisé dans le cadre de la formation IIT Learn 25-26.

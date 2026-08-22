@@ -27,7 +27,10 @@
             <input type="checkbox" name="anonyme_par_defaut" class="form-check-input" id="anonymeCheck" {% if profil.anonyme_par_defaut %}checked{% endif %}>
             <label class="form-check-label" for="anonymeCheck">Publier anonymement par défaut</label>
         </div>
-        <button type="submit" class="btn btn-scandale">Enregistrer</button>
+        <div class="d-flex gap-2 flex-wrap">
+            <button type="submit" class="btn btn-scandale">Enregistrer</button>
+            <a href="{% url 'iit_underground:supprimer_compte' %}" class="btn btn-outline-danger">Supprimer mon compte</a>
+        </div>
     </form>
 </div>
 

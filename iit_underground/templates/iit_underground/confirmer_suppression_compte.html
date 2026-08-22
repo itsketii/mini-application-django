@@ -1,0 +1,16 @@
+{% extends 'iit_underground/base.html' %}
+{% block title %}Supprimer le compte{% endblock %}
+{% block content %}
+<h1 class="mb-3">Supprimer mon compte</h1>
+<p>Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est définitive.</p>
+<div class="card p-3 mb-3">
+    <p class="mb-0">Compte : <strong>{{ user.username }}</strong></p>
+</div>
+<form method="post">
+    {% csrf_token %}
+    <div class="d-flex gap-2">
+        <button class="btn btn-danger" type="submit">Confirmer la suppression</button>
+        <a class="btn btn-outline-secondary" href="{% url 'iit_underground:profil' %}">Annuler</a>
+    </div>
+</form>
+{% endblock %}
