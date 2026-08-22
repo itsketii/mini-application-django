@@ -79,7 +79,7 @@ mini-application-django/
 1. Cloner le projet
 
 ```bash
-git clone <url-du-repo>
+git clone https://github.com/itsketii/mini-application-django
 cd mini-application-django
 ```
 
